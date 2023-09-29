@@ -54,29 +54,7 @@ function madeInsert($arr){
         if(!empty($user['status']) && stristr($user['status'],"'")){
             $user['status'] = htmlspecialchars($user['status']);
         }
-        $insert .= "INSERT INTO `users` (`id`,". (empty($user['login']) ? '' : '`login`,') . (empty($user['name']) ? '' : '`name`,') . (empty($user['lastname']) ? '' : '`lastname`,') ." `gender`, ". (empty($user['location']) ? '' : '`location`,') . (empty($user['status']) ? '' : '`status`,') . (empty($user['ip']) ? '' : '`ip`,') ." `rating`, `score`, ". (empty($user['email']) ? '' : '`email`,') . (empty($user['email_info']) ? '' : '`email_info`,') . (empty($user['website']) ? '' : '`website`,') . (empty($user['password']) ? '' : '`password`,') . (empty($user['avatar_path']) ? '' : '`avatar_path`,') . (empty($user['last_seen']) ? '' : '`last_seen`,') . (empty($user['remember_token']) ? '' : '`remember_token`,') . (empty($user['email_verify_at']) ? '' : '`email_verify_at`,') . (empty($user['created_at']) ? '' : '`created_at`,') . (empty($user['updated_at']) ? '' : (empty($user['deleted_at']) ? '`updated_at`' : '`updated_at`,')) . (empty($user['deleted_at']) ? '' : '`deleted_at`') .") VALUES
-        (
-                        '". ($user['id']) ."',
-                        ". (empty($user['login']) ? null : "'" . $user['login'] . "',") ."
-                        ". (empty($user['name']) ? null : "'" . $user['name'] . "',") ."
-                        ". (empty($user['lastname']) ? null : "'" . $user['lastname'] . "',") ."
-                        ". (empty($user['gender']) ? null : "'" . $user['gender'] . "',") ."
-                        ". (empty($user['location']) ? "'ru'," : "'" . $user['location'] . "',") ."
-                        ". (empty($user['status']) ? null : "'" . $user['status'] . "',") ."
-                        ". (empty($user['ip']) ? null : "'" . $user['ip'] . "',") ."'".
-                        (empty($user['rating']) ? 0 : $user['rating']) ."','". (empty($user['score']) ? 0 : $user['score']) ."',
-                        ". (empty($user['email']) ? null : "'" . $user['email'] . "',") ."
-                        ". (empty($user['email_info']) ? null : "'" . $user['email_info'] . "',") ."
-                        ". (empty($user['website']) ? null : "'" . $user['website'] . "',") ."
-                        ". (empty($user['password']) ? null : "'" . $user['password'] . "',") ."
-                        ". (empty($user['avatar_path']) ? null : "'" . $user['avatar_path'] . "',") ."
-                        ". (empty($user['last_seen']) ? null : "'" . $user['last_seen'] . "',") ."
-                        ". (empty($user['remember_token']) ? null : "'" . $user['remember_token'] . "',") ."
-                        ". (empty($user['email_verify_at']) ? null : "'" . $user['email_verify_at'] . "',") ."
-                        ". (empty($user['created_at']) ? null : "'" . $user['created_at'] . "',") ."
-                        ". (empty($user['updated_at']) ? null : "'" . $user['updated_at'] . (empty($user['deleted_at']) ? "'" : "',")) ."
-                        ". (empty($user['deleted_at']) ? null : "'" . $user['deleted_at'] . "'") ."
-                        ); ";
+        $insert .= "INSERT INTO `users` (`id`,". (empty($user['login']) ? null : '`login`,') . (empty($user['name']) ? null : '`name`,') . (empty($user['lastname']) ? null : '`lastname`,') ." `gender`, ". (empty($user['location']) ? null : '`location`,') . (empty($user['status']) ? null : '`status`,') . (empty($user['ip']) ? null : '`ip`,') . " `rating`, `score`, `email`, " . (empty($user['email_info']) ? null : '`email_info`,') . (empty($user['website']) ? null : '`website`,') . (empty($user['password']) ? null : '`password`,') . (empty($user['avatar_path']) ? null : '`avatar_path`,') . (empty($user['last_seen']) ? null : '`last_seen`,') . (empty($user['remember_token']) ? null : '`remember_token`,') . (empty($user['email_verify_at']) ? null : '`email_verify_at`,') . (empty($user['created_at']) ? null : '`created_at`,') . (empty($user['updated_at']) ? null : (empty($user['deleted_at']) ? '`updated_at`' : '`updated_at`,')) . (empty($user['deleted_at']) ? null : '`deleted_at`') .") VALUES ('". ($user['id']) ."',". (empty($user['login']) ? null : "'" . $user['login'] . "',") . (empty($user['name']) ? null : "'" . $user['name'] . "',") . (empty($user['lastname']) ? null : "'" . $user['lastname'] . "',") . (empty($user['gender']) ? null : "'" . $user['gender'] . "',") . (empty($user['location']) ? "'ru'," : "'" . $user['location'] . "',") . (empty($user['status']) ? null : "'" . $user['status'] . "',") . (empty($user['ip']) ? null : "'" . $user['ip'] . "',") ."'". (empty($user['rating']) ? 0 : $user['rating']) ."','". (empty($user['score']) ? 0 : $user['score']) ."',". (empty($user['email']) ? "'test'," : "'" . $user['email'] . "',") . (empty($user['email_info']) ? null : "'" . $user['email_info'] . "',") . (empty($user['website']) ? null : "'" . $user['website'] . "',") . (empty($user['password']) ? null : "'" . $user['password'] . "',") . (empty($user['avatar_path']) ? null : "'" . $user['avatar_path'] . "',") . (empty($user['last_seen']) ? null : "'" . $user['last_seen'] . "',") . (empty($user['remember_token']) ? null : "'" . $user['remember_token'] . "',") . (empty($user['email_verify_at']) ? null : "'" . $user['email_verify_at'] . "',") . (empty($user['created_at']) ? null : "'" . $user['created_at'] . "',") . (empty($user['updated_at']) ? null : "'" . $user['updated_at'] . (empty($user['deleted_at']) ? "'" : "',")). (empty($user['deleted_at']) ? null : "'" . $user['deleted_at'] . "'") ."); ";
     }
     return $insert;
 }
