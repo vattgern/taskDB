@@ -36,84 +36,60 @@ function connectNewDB(){
 }
 // Получаем пол-ей
 function getUsers($db){
-    $result = $db->query("SELECT * FROM users LIMIT 1");
-    return $result->fetchAll();
-}
-// Записывает пол-ей в файл
-function writeFile($arr){
-    $fd = fopen('users.txt', 'w') or die('не удалось создать файл');
-    foreach ($arr as $row){
-        fwrite($fd, json_encode($row));
-    }
-    fclose($fd);
-//    echo "Users записаны в файл";
+    $result = $db->query("SELECT * FROM users");
+    return $result->fetchAll(PDO::FETCH_ASSOC);
 }
 function madeInsert($arr){
     $insert = '';
     foreach ($arr as $user){
-        if(empty($user['cover_path'])){
-            $user['cover_path'] = null;
+        if(!empty($user['login']) && stristr($user['login'],"'")){
+            $user['login'] = htmlspecialchars($user['login']);
         }
-        $insert .= "INSERT INTO `users`
-                    (`id`, 
-                     `". (empty($user['login']) ? '' : '`login`') ."`, 
-                     `". (empty($user['name']) ? '' : '`name`') ."`, 
-                     `". (empty($user['lastname']) ? '' : '`lastname`') ."`, 
-                     `gender`, 
-                     `". (empty($user['location']) ? '' : '`location`') ."`, 
-                     `". (empty($user['status']) ? '' : '`status`') ."`, 
-                     `". (empty($user['ip']) ? '' : '`ip`') ."`, 
-                     `rating`, 
-                     `score`, 
-                     `". (empty($user['email']) ? '' : '`email`') ."`, 
-                     `". (empty($user['email_info']) ? '' : '`email_info`') ."`, 
-                     `". (empty($user['website']) ? '' : '`website`') ."`, 
-                     `". (empty($user['password']) ? '' : '`password`') ."`, 
-                     `". (empty($user['avatar_path']) ? '' : '`avatar_path`') ."`, 
-                     `cover_path`, 
-                     `last_seen`, 
-                     `remember_token`, 
-                     `email_verify_at`,
-                     `created_at`,
-                     `updated_at`) 
-                    VALUES (
+        if(!empty($user['name']) && stristr($user['name'],"'")){
+            $user['name'] = htmlspecialchars($user['name']);
+        }
+        if(!empty($user['lastname']) && stristr($user['lastname'],"'")){
+            $user['lastname'] = htmlspecialchars($user['lastname']);
+        }
+        if(!empty($user['status']) && stristr($user['status'],"'")){
+            $user['status'] = htmlspecialchars($user['status']);
+        }
+        $insert .= "INSERT INTO `users` (`id`,". (empty($user['login']) ? '' : '`login`,') . (empty($user['name']) ? '' : '`name`,') . (empty($user['lastname']) ? '' : '`lastname`,') ." `gender`, ". (empty($user['location']) ? '' : '`location`,') . (empty($user['status']) ? '' : '`status`,') . (empty($user['ip']) ? '' : '`ip`,') ." `rating`, `score`, ". (empty($user['email']) ? '' : '`email`,') . (empty($user['email_info']) ? '' : '`email_info`,') . (empty($user['website']) ? '' : '`website`,') . (empty($user['password']) ? '' : '`password`,') . (empty($user['avatar_path']) ? '' : '`avatar_path`,') . (empty($user['last_seen']) ? '' : '`last_seen`,') . (empty($user['remember_token']) ? '' : '`remember_token`,') . (empty($user['email_verify_at']) ? '' : '`email_verify_at`,') . (empty($user['created_at']) ? '' : '`created_at`,') . (empty($user['updated_at']) ? '' : (empty($user['deleted_at']) ? '`updated_at`' : '`updated_at`,')) . (empty($user['deleted_at']) ? '' : '`deleted_at`') .") VALUES
+        (
                         '". ($user['id']) ."',
-                        '". (empty($user['login']) ? null : $user['login']) ."',
-                        '". (empty($user['name']) ? null : $user['name']) ."',
-                        '". (empty($user['lastname']) ? null : $user['lastname']) ."',
-                        '". (empty($user['gender']) ? 'none' : $user['gender']) ."',
-                        '". (empty($user['location']) ? null : $user['location']) ."',
-                        '". (empty($user['status']) ? null : $user['status']) ."',
-                        '". (empty($user['ip']) ? null : $user['ip']) ."',
-                        '". (empty($user['rating']) ? 0 : $user['rating']) ."',
-                        '". (empty($user['score']) ? 0 : $user['score']) ."',
-                        '". (empty($user['email']) ? null : $user['email']) ."',
-                        '". (empty($user['email_info']) ? null : $user['email_info']) ."',
-                        '". (empty($user['website']) ? null : $user['website']) ."',
-                        '". (empty($user['password']) ? null : $user['password']) ."',
-                        '". (empty($user['avatar_path']) ? null : $user['avatar_path']) ."',
-                        '". null ."',
-                        '". (empty($user['last_seen']) ? null : $user['last_seen']) ."',
-                        '". (empty($user['remember_token']) ? null : $user['remember_token']) ."',
-                        '". (empty($user['email_verify_at']) ? null : $user['email_verify_at']) ."',
-                        '". (empty($user['created_at']) ? null : $user['created_at']) ."',
-                        '". (empty($user['updated_at']) ? null : $user['updated_at']) ."');";
+                        ". (empty($user['login']) ? null : "'" . $user['login'] . "',") ."
+                        ". (empty($user['name']) ? null : "'" . $user['name'] . "',") ."
+                        ". (empty($user['lastname']) ? null : "'" . $user['lastname'] . "',") ."
+                        ". (empty($user['gender']) ? null : "'" . $user['gender'] . "',") ."
+                        ". (empty($user['location']) ? "'ru'," : "'" . $user['location'] . "',") ."
+                        ". (empty($user['status']) ? null : "'" . $user['status'] . "',") ."
+                        ". (empty($user['ip']) ? null : "'" . $user['ip'] . "',") ."'".
+                        (empty($user['rating']) ? 0 : $user['rating']) ."','". (empty($user['score']) ? 0 : $user['score']) ."',
+                        ". (empty($user['email']) ? null : "'" . $user['email'] . "',") ."
+                        ". (empty($user['email_info']) ? null : "'" . $user['email_info'] . "',") ."
+                        ". (empty($user['website']) ? null : "'" . $user['website'] . "',") ."
+                        ". (empty($user['password']) ? null : "'" . $user['password'] . "',") ."
+                        ". (empty($user['avatar_path']) ? null : "'" . $user['avatar_path'] . "',") ."
+                        ". (empty($user['last_seen']) ? null : "'" . $user['last_seen'] . "',") ."
+                        ". (empty($user['remember_token']) ? null : "'" . $user['remember_token'] . "',") ."
+                        ". (empty($user['email_verify_at']) ? null : "'" . $user['email_verify_at'] . "',") ."
+                        ". (empty($user['created_at']) ? null : "'" . $user['created_at'] . "',") ."
+                        ". (empty($user['updated_at']) ? null : "'" . $user['updated_at'] . (empty($user['deleted_at']) ? "'" : "',")) ."
+                        ". (empty($user['deleted_at']) ? null : "'" . $user['deleted_at'] . "'") ."
+                        ); ";
     }
     return $insert;
 }
-//
-//                     `deleted_at`
-//,
-//
-//                        '". (empty($user['deleted_at']) ? '' : $user['deleted_at']) ."'
-
-
 
 $db = connectOldDB();
 $users= getUsers($db);
-//writeFile($users);
+echo "<br>" . count($users) . "<br>";
+
 $db = null;
 $db = connectNewDB();
-$request = madeInsert($users);
-$db->query($request);
-echo $request;
+
+$result = madeInsert($users);
+
+$fp = fopen("users.sql", "w");
+fwrite($fp, $result);
+fclose($fp);
