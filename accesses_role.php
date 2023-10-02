@@ -23,8 +23,8 @@ function madeInsert($arr){
 
 
 $db = connectOldDB();
-$roles = getAccessesRole($db);
-$result = madeInsert($roles);
+$accessRoles = getAccessesRole($db);
+$result = madeInsert($accessRoles);
 
 $fp = fopen("files/accesses_role.sql", "w");
 fwrite($fp, $result);

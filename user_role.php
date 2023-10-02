@@ -23,8 +23,8 @@ function madeInsert($arr){
 
 
 $db = connectOldDB();
-$roles = getUserRole($db);
-$result = madeInsert($roles);
+$userRoles = getUserRole($db);
+$result = madeInsert($userRoles);
 
 $fp = fopen("files/user_role.sql", "w");
 fwrite($fp, $result);
