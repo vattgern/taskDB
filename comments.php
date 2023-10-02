@@ -63,6 +63,7 @@ function madeInsert($arr){
         foreach ($step as $comment){
             if(!empty($comment['body'])){
                 $comment['body'] = htmlspecialchars($comment['body']);
+                $comment['body'] = quotemeta($comment['body']);
             }
             if(!empty($comment['group_type'])){
                 $comment['group_type'] = quotemeta($comment['group_type']);
@@ -70,37 +71,44 @@ function madeInsert($arr){
             if(!empty($comment['to_type'])){
                 $comment['to_type'] = quotemeta($comment['to_type']);
             }
+            $title = "`id`,`group_type`, `group_id`,";
+            $content = "'{$comment['id']}', '{$comment['group_type']}', '{$comment['group_id']}', ";
+            if(!empty($comment['to_type'])){
+                $title .= "`to_type`,";
+                $content .= "'{$comment['to_type']}',";
+            }
+            if(!empty($comment['to_id'])){
+                $title .= "`to_id`,";
+                $content .= "'{$comment['to_id']}',";
+            }
+            $title .= "`ip`,";
+            $content .= "'{$comment['ip']}',";
+            if(!empty($comment['parent_id'])){
+                $title .= "`parent_id`,";
+                $content .= "'{$comment['parent_id']}',";
+            }
+            $title .= "`body`, `type`, `score`, `weight`";
+            $content .= "'{$comment['body']}', '{$comment['type']}', '{$comment['score']}', '{$comment['weight']}'";
 
-            $insert .= "INSERT INTO `comments` (
-                       `id`, 
-                       `group_type`,
-                       `group_id`, 
-                       " . (empty($comment['to_type']) ? null : '`to_type`,') . "
-                       " . (empty($comment['to_id']) ? null : '`to_id`,') . "
-                       `ip`, 
-                       " . (empty($comment['parent_id']) ? null : '`parent_id`,') . "
-                       `body`, 
-                       `type`, 
-                       `score`, 
-                       `weight`, 
-                       `created_at`, 
-                       ". (empty($comment['updated_at']) ? null : (empty($comment['deleted_at']) ? '`updated_at`' : '`updated_at`,')) ." 
-                       ". (empty($comment['deleted_at']) ? null : '`deleted_at`') .") 
-                        VALUES (
-                                '" . $comment['id'] ."',
-                                '" . $comment['group_type'] ."',
-                                '" . $comment['group_id'] ."',
-                                " . (empty($comment['to_type']) ? null : "'" . $comment['to_type'] . "',") ."
-                                " . (empty($comment['to_id']) ? null : "'" . $comment['to_id'] . "',") ."
-                                '" . $comment['ip'] ."',
-                                " . (empty($comment['parent_id']) ? null : "'" . $comment['parent_id'] . "',") ."
-                                '" . $comment['body'] ."',
-                                " . (empty($comment['type']) ? "'none'," : "'" . $comment['type'] . "',") ."
-                                " . (empty($comment['score']) ? "'0'," : "'" . $comment['score'] . "',") ."
-                                " . (empty($comment['weight']) ? "'0'," : "'" . $comment['weight'] . "',") ."
-                                " . (empty($comment['created_at']) ? null : "'" . $comment['created_at'] . "',") ."
-                                " . (empty($comment['updated_at']) ? null : (empty($comment['deleted_at']) ? "'" . $comment['updated_at'] . "'" : "'" . $comment['updated_at'] . "',")) ."
-                                " . (empty($comment['deleted_at']) ? null : "'" . $comment['deleted_at'] . "'") ."); ";
+            if(!empty($comment['created_at'])){
+                $title .= ", `created_at`";
+                $content .= ", '{$comment['created_at']}'";
+            }
+            if(!empty($comment['updated_at'])){
+                $title .= ", `updated_at`";
+                $content .= ", '{$comment['updated_at']}'";
+            }
+            if(!empty($comment['deleted_at'])){
+                $title .= ", `deleted_at`";
+                $content .= ", '{$comment['deleted_at']}'";
+            }
+            $insert .= "INSERT INTO `comments`({$title}) VALUES ({$content}); ";
+//            if($comment['id'] == 3289){
+//                echo $insert . "<br>";
+//                echo $title . "<br>";
+//                echo $content . "<br>";
+//                die();
+//            }
         }
         fwrite($fp, $insert);
         fclose($fp);
