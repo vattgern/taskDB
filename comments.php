@@ -20,14 +20,6 @@
  * updated_at
  * deleted_at
  */
-
-function connectOldDB(){
-    return new PDO("mysql:host=localhost;port=3306;dbname=vapenew-old", 'root', '');
-}
-// Подключение к новой БД
-function connectNewDB(){
-    return new PDO("mysql:host=localhost;port=3306;dbname=vapenews", 'root', '');
-}
 function getCountComments($db){
     $result = $db->query("SELECT MAX(id) FROM `comments`; ");
     return $result->fetch();
@@ -41,7 +33,7 @@ function fetchingComments($db, $count){
         $from = $index;
         $to = $from + 300;
         $index += 300;
-        $arr[] = getArticles($db, $from, $to);
+        $arr[] = getComments($db, $from, $to);
         if($index > $count){
             $index = $count;
             $to = $index;
@@ -49,12 +41,12 @@ function fetchingComments($db, $count){
     }
     return $arr;
 }
-function getArticles($db, $from, $to) {
+function getComments($db, $from, $to) {
     $result = $db->query("SELECT * FROM `comments` WHERE id > " . $from . " AND id <= " . $to);
     return $result->fetchAll();
 }
 
-function madeInsert($arr){
+function forComments($arr){
     $index = 1;
     foreach ($arr as $step){
         $fp = fopen("files/comments-".$index.'.sql', 'w');
@@ -103,12 +95,6 @@ function madeInsert($arr){
                 $content .= ", '{$comment['deleted_at']}'";
             }
             $insert .= "INSERT INTO `comments`({$title}) VALUES ({$content}); ";
-//            if($comment['id'] == 3289){
-//                echo $insert . "<br>";
-//                echo $title . "<br>";
-//                echo $content . "<br>";
-//                die();
-//            }
         }
         fwrite($fp, $insert);
         fclose($fp);
@@ -117,13 +103,10 @@ function madeInsert($arr){
     echo "<br>Файлы Созданы<br>";
 }
 
-
-
-$db = connectOldDB();
 $count = getCountComments($db);
 $count = $count[0];
 
 echo $count . "<br>";
 $comments = fetchingComments($db, $count);
 
-madeInsert($comments);
+forComments($comments);

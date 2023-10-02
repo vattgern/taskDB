@@ -1,5 +1,9 @@
 <?php
-
+// Подлючение к старой БД
+function connectOldDB(){
+    return new PDO("mysql:host=localhost;port=3306;dbname=vapenew-old", 'root', '');
+}
+$db = connectOldDB();
 require './users.php';
 require './articles.php';
 require  './tags.php';

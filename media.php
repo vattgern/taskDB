@@ -12,14 +12,11 @@
  * updated_at
  */
 
-function connectOldDB(){
-    return new PDO("mysql:host=localhost;port=3306;dbname=vapenew-old", 'root', '');
-}
 function getMedia($db){
     $result = $db->query("SELECT * FROM `media`;");
     return $result->fetchAll(PDO::FETCH_ASSOC);
 }
-function madeInsert($arr){
+function forMedia($arr){
     $insert = '';
     foreach ($arr as $data) {
         $data['model_type'] = quotemeta($data['model_type']);
@@ -28,12 +25,8 @@ function madeInsert($arr){
     return $insert;
 }
 
-
-
-
-$db = connectOldDB();
 $media = getMedia($db);
-$result = madeInsert($media);
+$result = forMedia($media);
 
 $fp = fopen("files/media.sql", "w");
 fwrite($fp, $result);

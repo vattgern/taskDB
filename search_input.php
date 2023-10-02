@@ -8,15 +8,11 @@
  * updated_at
  * deleted_at
  */
-
-function connectOldDB(){
-    return new PDO("mysql:host=localhost;port=3306;dbname=vapenew-old", 'root', '');
-}
-function getUserFlag($db){
+function getSearchInput($db){
     $result = $db->query("SELECT * FROM `search_input`;");
     return $result->fetchAll(PDO::FETCH_ASSOC);
 }
-function madeInsert($arr){
+function forSearchInput($arr){
     $insert = '';
     foreach ($arr as $search){
         if(str_contains($search['input'], "'")){
@@ -28,13 +24,8 @@ function madeInsert($arr){
     }
     return $insert;
 }
-
-
-
-
-$db = connectOldDB();
-$searches = getUserFlag($db);
-$result = madeInsert($searches);
+$searches = getSearchInput($db);
+$result = forSearchInput($searches);
 
 $fp = fopen("files/search_input.sql", "w");
 fwrite($fp, $result);

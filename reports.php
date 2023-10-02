@@ -12,15 +12,11 @@
  * created_at
  * updated_at
  */
-
-function connectOldDB(){
-    return new PDO("mysql:host=localhost;port=3306;dbname=vapenew-old", 'root', '');
-}
 function getReports($db){
     $result = $db->query("SELECT * FROM `reports`; ");
     return $result->fetchAll(PDO::FETCH_ASSOC);
 }
-function madeInsert($arr){
+function forReports($arr){
     $insert = '';
     foreach ($arr as $report){
         if(!empty($report['model_type'])){
@@ -30,11 +26,8 @@ function madeInsert($arr){
     }
     return $insert;
 }
-
-
-$db = connectOldDB();
 $reports = getReports($db);
-$result = madeInsert($reports);
+$result = forReports($reports);
 
 $fp = fopen("files/reports.sql", "w");
 fwrite($fp, $result);

@@ -5,15 +5,11 @@
  * access_id - access_id
  * role_id - role_id
  */
-
-function connectOldDB(){
-    return new PDO("mysql:host=localhost;port=3306;dbname=vapenew-old", 'root', '');
-}
 function getAccessesRole($db){
     $result = $db->query("SELECT * FROM `access_role`; ");
     return $result->fetchAll(PDO::FETCH_ASSOC);
 }
-function madeInsert($arr){
+function forAccessesRole($arr){
     $insert = '';
     foreach ($arr as $accessRole){
         $insert .= "INSERT INTO `access_role`(`access_id`, `role_id`) VALUES ('" . $accessRole['access_id'] . "','" . $accessRole['role_id'] . "'); ";
@@ -21,10 +17,8 @@ function madeInsert($arr){
     return $insert;
 }
 
-
-$db = connectOldDB();
 $accessRoles = getAccessesRole($db);
-$result = madeInsert($accessRoles);
+$result = forAccessesRole($accessRoles);
 
 $fp = fopen("files/accesses_role.sql", "w");
 fwrite($fp, $result);

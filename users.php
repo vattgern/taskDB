@@ -26,20 +26,13 @@
  * deleted_at
  */
 
-// Подлючение к старой БД
-function connectOldDB(){
-    return new PDO("mysql:host=localhost;port=3306;dbname=vapenew-old", 'root', '');
-}
-// Подключение к новой БД
-function connectNewDB(){
-    return new PDO("mysql:host=localhost;port=3306;dbname=vapenews", 'root', '');
-}
+
 // Получаем пол-ей
 function getUsers($db){
     $result = $db->query("SELECT * FROM users");
     return $result->fetchAll(PDO::FETCH_ASSOC);
 }
-function madeInsert($arr){
+function forUsers($arr){
     $insert = '';
     foreach ($arr as $user){
         if(!empty($user['login']) && stristr($user['login'],"'")){
@@ -58,15 +51,8 @@ function madeInsert($arr){
     }
     return $insert;
 }
-
-$db = connectOldDB();
 $users= getUsers($db);
-echo "<br>" . count($users) . "<br>";
-
-$db = null;
-$db = connectNewDB();
-
-$result = madeInsert($users);
+$result = forUsers($users);
 
 $fp = fopen("files/users.sql", "w");
 fwrite($fp, $result);

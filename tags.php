@@ -9,19 +9,11 @@
  * created_at
  * updated_at
  */
-
-function connectOldDB(){
-    return new PDO("mysql:host=localhost;port=3306;dbname=vapenew-old", 'root', '');
-}
-// Подключение к новой БД
-function connectNewDB(){
-    return new PDO("mysql:host=localhost;port=3306;dbname=vapenews", 'root', '');
-}
 function getTags($db){
     $result = $db->query("SELECT * FROM `tags`");
     return $result->fetchAll(PDO::FETCH_ASSOC);
 }
-function madeInsert($arr){
+function forTags($arr){
     $insert = '';
     foreach ($arr as $tag){
         $insert .= "INSERT INTO `tags` (
@@ -44,11 +36,8 @@ function madeInsert($arr){
     return $insert;
 }
 
-
-
-$db = connectOldDB();
 $tags = getTags($db);
-$result = madeInsert($tags);
+$result = forTags($tags);
 
 $fp = fopen("files/tags.sql", "w");
 fwrite($fp, $result);

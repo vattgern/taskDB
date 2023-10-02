@@ -25,14 +25,6 @@
  * updated_at
  * deleted_at
  */
-
-function connectOldDB(){
-    return new PDO("mysql:host=localhost;port=3306;dbname=vapenew-old", 'root', '');
-}
-// Подключение к новой БД
-function connectNewDB(){
-    return new PDO("mysql:host=localhost;port=3306;dbname=vapenews", 'root', '');
-}
 function getCountArticles($db){
     $result = $db->query("SELECT MAX(id) FROM `articles`; ");
     return $result->fetch();
@@ -59,7 +51,7 @@ function getArticles($db, $from, $to) {
     return $result->fetchAll();
 }
 
-function madeInsert($arr){
+function forArticles($arr){
     $index = 1;
     foreach ($arr as $step){
         $fp = fopen("files/articles-".$index.'.sql', 'w');
@@ -86,10 +78,6 @@ function madeInsert($arr){
     }
     echo "<br>Файлы Созданы<br>";
 }
-
-
-
-$db = connectOldDB();
 $count = getCountArticles($db);
 $count = $count[0];
 
@@ -97,4 +85,4 @@ echo $count . "<br>";
 $articles = fetchingArticles($db, $count);
 echo "<br>Загрузка прошла<br>";
 
-madeInsert($articles);
+forArticles($articles);

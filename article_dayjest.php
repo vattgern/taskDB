@@ -5,14 +5,11 @@
  * updated_at
  */
 
-function connectOldDB(){
-    return new PDO("mysql:host=localhost;port=3306;dbname=vapenew-old", 'root', '');
-}
 function getArticleDayjest($db){
     $result = $db->query("SELECT * FROM `article_dayjest`;");
     return $result->fetchAll(PDO::FETCH_ASSOC);
 }
-function madeInsert($arr){
+function forArticleDayjest($arr){
     $insert = '';
     foreach ($arr as $dayjest){
 
@@ -20,10 +17,8 @@ function madeInsert($arr){
     }
     return $insert;
 }
-
-$db = connectOldDB();
 $articleDayjest = getArticleDayjest($db);
-$result = madeInsert($articleDayjest);
+$result = forArticleDayjest($articleDayjest);
 
 $fp = fopen("files/article_dayjest.sql", "w");
 fwrite($fp, $result);

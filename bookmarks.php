@@ -9,15 +9,11 @@
  * created_at
  * updated_at
  */
-
-function connectOldDB(){
-    return new PDO("mysql:host=localhost;port=3306;dbname=vapenew-old", 'root', '');
-}
 function getBookMarks($db){
     $result = $db->query("SELECT * FROM `bookmarks`;");
     return $result->fetchAll(PDO::FETCH_ASSOC);
 }
-function madeInsert($arr){
+function forBookmarks($arr){
     $insert = '';
     foreach ($arr as $bookmark){
         $bookmark['model_type'] = quotemeta($bookmark['model_type']);
@@ -26,12 +22,8 @@ function madeInsert($arr){
     return $insert;
 }
 
-
-
-
-$db = connectOldDB();
 $bookmarks = getBookMarks($db);
-$result = madeInsert($bookmarks);
+$result = forBookmarks($bookmarks);
 
 $fp = fopen("files/bookmarks.sql", "w");
 fwrite($fp, $result);
