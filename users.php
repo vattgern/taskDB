@@ -68,6 +68,6 @@ $db = connectNewDB();
 
 $result = madeInsert($users);
 
-$fp = fopen("users.sql", "w");
+$fp = fopen("files/users.sql", "w");
 fwrite($fp, $result);
 fclose($fp);
