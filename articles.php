@@ -69,51 +69,7 @@ function madeInsert($arr){
             $article['title'] = htmlspecialchars($article['title']);
             $article['body'] = htmlspecialchars($article['body']);
             $article['teaser'] = htmlspecialchars($article['teaser']);
-            $insert .= "INSERT INTO `articles` (
-                       `id`, 
-                       `user_id`, 
-                       ". (empty($article['user_ip']) ? null : '`user_ip`,') ." 
-                       ". (empty($article['public_id']) ? null : '`public_id`,') ." 
-                       ". (empty($article['title']) ? null : '`title`,') ." 
-                       ". (empty($article['body']) ? null : '`body`,') ."  
-                       ". (empty($article['teaser']) ? null : '`teaser`,') ."  
-                       ". (empty($article['clear_data']) ? null : '`clear_data`,') ."   
-                       ". (empty($article['url']) ? null : '`url`,') ."   
-                       `rating`, 
-                       `score`, 
-                       `views`, 
-                       ". (empty($article['cover']) ? null : '`cover`,') ." 
-                       `publish`, 
-                       `type`, 
-                       `weight`, 
-                       `fixed`, 
-                       `pool_mode`, 
-                       `check_solution`, 
-                       ". (empty($article['created_at']) ? null : (empty($article['updated_at']) ? '`created_at`' : '`created_at`,')) ."
-                       ". (empty($article['updated_at']) ? null : (empty($article['deleted_at']) ? '`updated_at`' : '`updated_at`,')) ."
-                       ". (empty($article['deleted_at']) ? null : '`deleted_at`') ." ) 
-                        VALUES (
-                        '". $article['id'] ."',
-                        '" . $article['user_id'] ."',
-                        " . (empty($article['user_ip']) ? null : "'" . $article['user_ip'] . "',") ."
-                        " . (empty($article['title']) ? null : "'" . $article['title'] . "',") ."
-                        " . (empty($article['body']) ? null : "'" . $article['body'] . "',") ."
-                        " . (empty($article['teaser']) ? null : "'" . $article['teaser'] . "',") ."
-                        " . (empty($article['clear_data']) ? null : "'" . $article['clear_data'] . "',") ."
-                        " . (empty($article['url']) ? null : "'" . $article['url'] . "',") ."
-                        " . (empty($article['rating']) ? "'" . 0 . "'," : "'" . $article['rating'] . "',") ."
-                        " . (empty($article['score']) ? "'" . 0 . "'," : "'" . $article['score'] . "',") ."
-                        " . (empty($article['views']) ? "'" . 0 . "'," : "'" . $article['views'] . "',") ."
-                        " . (empty($article['cover']) ? null : "'" . $article['cover'] . "',") ."
-                        " . (empty($article['publish']) ? "'prod'," : "'" . $article['publish'] . "',") ."
-                        " . (empty($article['type']) ? "'article'," : "'" . $article['type'] . "',") ."
-                        " . (empty($article['weight']) ? "'" . 0 . "'," : "'" . $article['weight'] . "',") ."
-                        " . (empty($article['fixed']) ? "'" . 0 . "'," : "'" . $article['fixed'] . "',") ."
-                        " . (empty($article['pool_mode']) ? "'vapenews'," : "'" . $article['pool_mode'] . "',") ."
-                        " . (empty($article['check_solution']) ? "'unchecked'," : "'" . $article['check_solution'] . "',") ."
-                        ". (empty($article['created_at']) ? null : (empty($article['updated_at']) ? "'". $article['created_at'] ."'" : "'". $article['created_at'] ."',")) ."
-                        ". (empty($article['updated_at']) ? null : (empty($article['deleted_at']) ? "'". $article['updated_at'] ."'" : "'". $article['updated_at'] ."',")) ."
-                        ". (empty($article['deleted_at']) ? null : "`" . $article['deleted_at'] ."`") ." ); ";
+            $insert .= "INSERT INTO `articles` (`id`, `user_id`, ". (empty($article['user_ip']) ? null : '`user_ip`,') ." ". (empty($article['public_id']) ? null : '`public_id`,') ." ". (empty($article['title']) ? null : '`title`,') ." ". (empty($article['body']) ? null : '`body`,') ."  ". (empty($article['teaser']) ? null : '`teaser`,') ."  ". (empty($article['clear_data']) ? null : '`clear_data`,') ."   ". (empty($article['url']) ? null : '`url`,') ." `rating`,`score`,`views`, ". (empty($article['cover']) ? null : '`cover`,') ." `publish`, `type`, `weight`, `fixed`, `pool_mode`, `check_solution`,  ". (empty($article['created_at']) ? null : (empty($article['updated_at']) ? '`created_at`' : '`created_at`,')) ." ". (empty($article['updated_at']) ? null : (empty($article['deleted_at']) ? '`updated_at`' : '`updated_at`,')) ." ". (empty($article['deleted_at']) ? null : '`deleted_at`') ." ) VALUES ( '". $article['id'] ."', '" . $article['user_id'] ."', " . (empty($article['user_ip']) ? null : "'" . $article['user_ip'] . "',") ." " . (empty($article['title']) ? null : "'" . $article['title'] . "',") ." " . (empty($article['body']) ? null : "'" . $article['body'] . "',") ." " . (empty($article['teaser']) ? null : "'" . $article['teaser'] . "',") ." " . (empty($article['clear_data']) ? null : "'" . $article['clear_data'] . "',") ." " . (empty($article['url']) ? null : "'" . $article['url'] . "',") ." " . (empty($article['rating']) ? "'" . 0 . "'," : "'" . $article['rating'] . "',") ." " . (empty($article['score']) ? "'" . 0 . "'," : "'" . $article['score'] . "',") ." " . (empty($article['views']) ? "'" . 0 . "'," : "'" . $article['views'] . "',") ." " . (empty($article['cover']) ? null : "'" . $article['cover'] . "',") ." " . (empty($article['publish']) ? "'prod'," : "'" . $article['publish'] . "',") ." " . (empty($article['type']) ? "'article'," : "'" . $article['type'] . "',") ." " . (empty($article['weight']) ? "'" . 0 . "'," : "'" . $article['weight'] . "',") ." " . (empty($article['fixed']) ? "'" . 0 . "'," : "'" . $article['fixed'] . "',") ." " . (empty($article['pool_mode']) ? "'vapenews'," : "'" . $article['pool_mode'] . "',") ." " . (empty($article['check_solution']) ? "'unchecked'," : "'" . $article['check_solution'] . "',") ." ". (empty($article['created_at']) ? null : (empty($article['updated_at']) ? "'". $article['created_at'] ."'" : "'". $article['created_at'] ."',")) ." ". (empty($article['updated_at']) ? null : (empty($article['deleted_at']) ? "'". $article['updated_at'] ."'" : "'". $article['updated_at'] ."',")) ." ". (empty($article['deleted_at']) ? null : "`" . $article['deleted_at'] ."`") ." ); ";
         }
         fwrite($fp, $insert);
         fclose($fp);
